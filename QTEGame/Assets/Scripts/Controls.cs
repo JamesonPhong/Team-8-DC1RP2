@@ -103,28 +103,12 @@ public class Phase1Minigame : MonoBehaviour
     }
     void GenerateButtonSequence()
     {
-        buttonOrder.Clear(); //Clears the last sequence
+        buttonOrder.Clear();
 
-        List<KeyCode> buttonsAvailable = new List<KeyCode>()
-        { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
-
-       // if (rounds > 1)
-      // {
-      //      buttonsAvailable.Add(KeyCode.C);
-      //  }
-      //  if (rounds > 2)
-      //  {
-      //      buttonsAvailable.Add(KeyCode.D);
-      //  }
-        while (buttonsAvailable.Count > 0)
+        for (int i = 0; i < 9; i++)
         {
-            int random = Random.Range(0, buttonsAvailable.Count);
-
-            KeyCode drawnButton = buttonsAvailable[random];
-
-            buttonOrder.Add(drawnButton);
-
-            buttonsAvailable.RemoveAt(random);
+            int random = Random.Range(0, buttons.Length);
+            buttonOrder.Add(buttons[random]);
         }
     }
     void StartRound()
