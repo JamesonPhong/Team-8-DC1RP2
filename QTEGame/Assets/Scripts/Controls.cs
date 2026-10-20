@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Phase1Minigame : MonoBehaviour
 {
+    public GameObject playAgain;
     public TextMeshProUGUI timerText;
     public Image[] Keyicons;
     public Sprite wKey;
@@ -19,7 +21,7 @@ public class Phase1Minigame : MonoBehaviour
     public float rounds = 0;
     public float wrongKeyCooldown = 0.5f;
     public float nextAllowedInputTime = 0f;
-    public float minigameTimer = 10f;
+    public float minigameTimer = 5f;
     private float startingTime;
 
     private KeyCode[] buttons = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
@@ -35,6 +37,9 @@ public class Phase1Minigame : MonoBehaviour
     }
     private void Update()
     {
+
+        Restart();
+
         if (completed || failed)
         {
             return;
@@ -53,7 +58,28 @@ public class Phase1Minigame : MonoBehaviour
             return;
         }
         CheckInput();
+     
     }
+    void Restart()
+    {
+        if (completed || failed)
+        {
+
+            playAgain.SetActive(true);
+
+            if (Input.anyKeyDown)
+            {
+                minigameTimer = 5f;
+                completed = false;
+                failed = false;
+                playAgain.SetActive (false);
+                nextAllowedInputTime = 0f;
+                StartRound();
+
+            }
+        }
+    }
+
     void Timer()
     {
         minigameTimer -= Time.deltaTime;
