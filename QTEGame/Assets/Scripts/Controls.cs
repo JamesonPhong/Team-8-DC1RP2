@@ -23,6 +23,8 @@ public class Phase1Minigame : MonoBehaviour
     public float nextAllowedInputTime = 0f;
     public float minigameTimer = 5f;
     private float startingTime;
+    public int buttonCount = 9;
+
 
     private KeyCode[] buttons = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
 
@@ -74,6 +76,7 @@ public class Phase1Minigame : MonoBehaviour
                 failed = false;
                 playAgain.SetActive (false);
                 nextAllowedInputTime = 0f;
+                buttonCount++;
                 StartRound();
 
             }
@@ -131,7 +134,7 @@ public class Phase1Minigame : MonoBehaviour
     {
         buttonOrder.Clear();
 
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < buttonCount; i++)
         {
             int random = Random.Range(0, buttons.Length);
             buttonOrder.Add(buttons[random]);
