@@ -26,10 +26,10 @@ Our vision for this prototype is to create a game based around QTEs that engages
 
 ## Goals
 
-With this prototype our objective is to answer this question:
-### Can we turn a simple quick-time event mechanic into an engaging ramping challenge that is enjoyable enough to act as a standalone minigame?
+With this prototype our objective statement is as such:
+### Can a simple quick-time event mechanic turn into an engaging ramping challenge that is enjoyable enough to act as a standalone minigame? By testing this concept,  we can prove if this framework of QTE can be ported to other games to provide a new element of action and challenge.
 
-The player experience goal is to make players feel challenged as they try to quickly input the correct keys and complete the round.
+The player experience goal is to make players feel challenged as they try to quickly input the correct keys and complete each round.
 
 ## Mechanics
 
