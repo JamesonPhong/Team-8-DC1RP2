@@ -31,7 +31,7 @@ With this prototype our objective is to answer this question:
 
 The player experience goal is to make players feel challenged as they try to quickly input the correct keys and complete the round.
 
-## Features
+## Mechanics
 
 ### 1. Input
 
