@@ -61,4 +61,4 @@ A sound will play on every correct key press and a different, less pleasant soun
 
 QTE Script sourced and made by Kaiky Correa in a prior project
 
-[Controller & Keyboard Icons](https://vryell.itch.io/controller-keyboard-icons) by [Vyrell](https://vryell.itch.io) on itch.io
+[Simple Flat Keys (Light/Dark)](https://gamedev-lab.itch.io/simple-flat-keys-lightdark) by [Gamedev Lab](https://gamedev-lab.itch.io) on itch.io
