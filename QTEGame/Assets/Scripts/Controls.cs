@@ -13,6 +13,9 @@ public class Phase1Minigame : MonoBehaviour
     public string winSceneName = "WinScene";
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI roundText;
+    public AudioSource audioSource;
+    public AudioClip correctSound;
+    public AudioClip missSound;
     public Image[] Keyicons;
     public Sprite wKey;
     public Sprite aKey;
@@ -139,6 +142,7 @@ public class Phase1Minigame : MonoBehaviour
                 if (button == buttonOrder[currentButtonIndex])
                 {
                     Debug.Log("Correct");
+                    audioSource.PlayOneShot(correctSound);
 
                     Keyicons[currentButtonIndex].gameObject.SetActive(false);
 
@@ -166,6 +170,7 @@ public class Phase1Minigame : MonoBehaviour
                 {
                     nextAllowedInputTime = Time.time + wrongKeyCooldown;//Adds the time for the input delay
                     flashOverlay.color = new Color(1f, 0.2f, 0.2f, 0.5f);
+                    audioSource.PlayOneShot(missSound);
                 }
 
                 return;
