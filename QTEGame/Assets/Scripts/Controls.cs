@@ -4,6 +4,7 @@ using System.Threading;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Phase1Minigame : MonoBehaviour
@@ -24,7 +25,9 @@ public class Phase1Minigame : MonoBehaviour
     public float minigameTimer = 5f;
     private float startingTime;
     public int buttonCount = 9;
-
+    private bool waitingForRestart = false;
+    private bool restartWaitStarted = false;
+    public TextMeshProUGUI roundStatusText;
 
     private KeyCode[] buttons = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
 
@@ -39,6 +42,15 @@ public class Phase1Minigame : MonoBehaviour
     }
     private void Update()
     {
+        if (rounds == 7)
+        {
+            SceneManager.LoadScene("WinScene");
+        }
+
+        if (waitingForRestart)
+        {
+            return;
+        }
 
         Restart();
 
@@ -64,21 +76,49 @@ public class Phase1Minigame : MonoBehaviour
     }
     void Restart()
     {
+        if ((completed || failed) && !restartWaitStarted)
+        {
+            restartWaitStarted = true;
+            StartCoroutine(WaitAfterFailure());
+        }
+
+        if (waitingForRestart)
+        {
+            return;
+        }
+
         if (completed || failed)
         {
-
             playAgain.SetActive(true);
+
+            if (failed)
+            {
+                roundStatusText.text = "Round " + (rounds) + " Failed!";
+            }
+            else if (completed)
+            {
+                roundStatusText.text = "Round " + (rounds) + " Completed!";
+            }
 
             if (Input.anyKeyDown)
             {
+                if (completed)
+                {
+                    buttonCount++;
+                    rounds++;
+                }
+
                 minigameTimer = 5f;
                 completed = false;
                 failed = false;
-                playAgain.SetActive (false);
-                nextAllowedInputTime = 0f;
-                buttonCount++;
-                StartRound();
+                waitingForRestart = false;
+                restartWaitStarted = false;
 
+                playAgain.SetActive(false);
+                roundStatusText.text = "";
+                nextAllowedInputTime = 0f;
+
+                StartRound();
             }
         }
     }
@@ -95,9 +135,17 @@ public class Phase1Minigame : MonoBehaviour
             Debug.Log("Minigame Failed! Time ran out.");
             return;
         }
-
         timerText.text = Mathf.CeilToInt(minigameTimer).ToString();
     }
+    IEnumerator WaitAfterFailure()
+    {
+        waitingForRestart = true;
+
+        yield return new WaitForSeconds(0.5f);
+
+        waitingForRestart = false;
+    }
+
 
     void CheckInput()
     {
@@ -118,7 +166,7 @@ public class Phase1Minigame : MonoBehaviour
                         completed = true;
                         Debug.Log("Minigame Completed!");
                         Debug.Log(minigameTimer);
-                        rounds++;
+                        
                     }
                 }
                 else
