@@ -2021,6 +2021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playAgain: {fileID: 431346035}
+  winSceneName: WinScene
   timerText: {fileID: 464096460}
   roundText: {fileID: 52819383}
   Keyicons:
@@ -2054,12 +2055,15 @@ MonoBehaviour:
   completed: 0
   failed: 0
   roundStarting: 0
+  won: 0
   rounds: 0
+  winRound: 6
   roundIntroTime: 1.5
   wrongKeyCooldown: 0.5
   nextAllowedInputTime: 0
   minigameTimer: 5
-  buttonCount: 9
+  buttonCount: 4
+  maxButtonCount: 9
 --- !u!4 &1180696277
 Transform:
   m_ObjectHideFlags: 0
