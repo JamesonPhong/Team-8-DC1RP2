@@ -5,12 +5,17 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Phase1Minigame : MonoBehaviour
 {
     public GameObject playAgain;
+    public string winSceneName = "WinScene";
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI roundText;
+    public AudioSource audioSource;
+    public AudioClip correctSound;
+    public AudioClip missSound;
     public Image[] Keyicons;
     public Sprite wKey;
     public Sprite aKey;
@@ -24,15 +29,18 @@ public class Phase1Minigame : MonoBehaviour
     public bool completed = false;
     public bool failed = false;
     public bool roundStarting = false;
+    public bool won = false;
 
     public float rounds = 0;
+    public int winRound = 6;
     public float roundIntroTime = 1.5f;
     public float wrongKeyCooldown = 0.5f;
     public float nextAllowedInputTime = 0f;
     public float minigameTimer = 5f;
     private float introTimer;
     private float startingTime;
-    public int buttonCount = 9;
+    public int buttonCount = 4;
+    public int maxButtonCount = 9;
 
 
     private KeyCode[] buttons = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
@@ -50,6 +58,8 @@ public class Phase1Minigame : MonoBehaviour
     private void Update()
     {
         flashOverlay.color = Color.Lerp(flashOverlay.color, Color.clear, 10f * Time.deltaTime);
+        
+        if (won) return;
 
         Restart();
 
@@ -96,7 +106,7 @@ public class Phase1Minigame : MonoBehaviour
             if (Input.anyKeyDown)
             {
                 minigameTimer = startingTime;
-                if (completed) buttonCount = Mathf.Min(buttonCount + 1, Keyicons.Length);
+                if (completed) buttonCount = Mathf.Min(buttonCount + 1, maxButtonCount);
                 completed = false;
                 failed = false;
                 playAgain.SetActive (false);
@@ -132,6 +142,7 @@ public class Phase1Minigame : MonoBehaviour
                 if (button == buttonOrder[currentButtonIndex])
                 {
                     Debug.Log("Correct");
+                    audioSource.PlayOneShot(correctSound);
 
                     Keyicons[currentButtonIndex].gameObject.SetActive(false);
 
@@ -143,6 +154,12 @@ public class Phase1Minigame : MonoBehaviour
                         Debug.Log("Minigame Completed!");
                         Debug.Log(minigameTimer);
                         rounds++;
+
+                        if (rounds >= winRound)
+                        {
+                            won = true;
+                            SceneManager.LoadScene(winSceneName);
+                        }
                     }
                     else
                     {
@@ -153,6 +170,7 @@ public class Phase1Minigame : MonoBehaviour
                 {
                     nextAllowedInputTime = Time.time + wrongKeyCooldown;//Adds the time for the input delay
                     flashOverlay.color = new Color(1f, 0.2f, 0.2f, 0.5f);
+                    audioSource.PlayOneShot(missSound);
                 }
 
                 return;
