@@ -10,18 +10,27 @@ public class Phase1Minigame : MonoBehaviour
 {
     public GameObject playAgain;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI roundText;
     public Image[] Keyicons;
     public Sprite wKey;
     public Sprite aKey;
     public Sprite sKey;
     public Sprite dKey;
+    public Sprite wKeyActive;
+    public Sprite aKeyActive;
+    public Sprite sKeyActive;
+    public Sprite dKeyActive;
+    public Image flashOverlay;
     public bool completed = false;
     public bool failed = false;
+    public bool roundStarting = false;
 
     public float rounds = 0;
+    public float roundIntroTime = 1.5f;
     public float wrongKeyCooldown = 0.5f;
     public float nextAllowedInputTime = 0f;
     public float minigameTimer = 5f;
+    private float introTimer;
     private float startingTime;
     public int buttonCount = 9;
 
@@ -35,12 +44,27 @@ public class Phase1Minigame : MonoBehaviour
     private void Start()
     {
         startingTime = minigameTimer;
+        flashOverlay.color = Color.clear;
         StartRound();
     }
     private void Update()
     {
+        flashOverlay.color = Color.Lerp(flashOverlay.color, Color.clear, 10f * Time.deltaTime);
 
         Restart();
+
+        if (roundStarting)
+        {
+            introTimer -= Time.deltaTime;
+
+            if (introTimer <= 0f)
+            {
+                roundStarting = false;
+                roundText.gameObject.SetActive(false);
+                DisplayButtons();
+            }
+            return;
+        }
 
         if (completed || failed)
         {
@@ -71,12 +95,12 @@ public class Phase1Minigame : MonoBehaviour
 
             if (Input.anyKeyDown)
             {
-                minigameTimer = 5f;
+                minigameTimer = startingTime;
+                if (completed) buttonCount = Mathf.Min(buttonCount + 1, Keyicons.Length);
                 completed = false;
                 failed = false;
                 playAgain.SetActive (false);
                 nextAllowedInputTime = 0f;
-                buttonCount++;
                 StartRound();
 
             }
@@ -120,10 +144,15 @@ public class Phase1Minigame : MonoBehaviour
                         Debug.Log(minigameTimer);
                         rounds++;
                     }
+                    else
+                    {
+                        Keyicons[currentButtonIndex].sprite = GetSprite(buttonOrder[currentButtonIndex], true);
+                    }
                 }
                 else
                 {
                     nextAllowedInputTime = Time.time + wrongKeyCooldown;//Adds the time for the input delay
+                    flashOverlay.color = new Color(1f, 0.2f, 0.2f, 0.5f);
                 }
 
                 return;
@@ -146,7 +175,18 @@ public class Phase1Minigame : MonoBehaviour
 
         GenerateButtonSequence();
 
-        DisplayButtons();
+     
+
+        foreach (Image icon in Keyicons)
+        {
+            icon.gameObject.SetActive(false);
+        }
+
+        timerText.text = Mathf.CeilToInt(minigameTimer).ToString();
+        roundText.gameObject.SetActive(true);
+        roundText.text = "ROUND " + (rounds + 1);
+        roundStarting = true;
+        introTimer = roundIntroTime;
     }
     void DisplayButtons()
     {
@@ -159,30 +199,28 @@ public class Phase1Minigame : MonoBehaviour
             }
 
             Keyicons[i].gameObject.SetActive(true);
+            Keyicons[i].sprite = GetSprite(buttonOrder[i], i == 0);
 
-            KeyCode currentButton = buttonOrder[i];
-            Sprite selectedSprite = null;
-
-            switch (currentButton)
-            {
-                case KeyCode.W:
-                    selectedSprite = wKey;
-                    break;
-
-                case KeyCode.A:
-                    selectedSprite = aKey;
-                    break;
-
-                case KeyCode.S:
-                    selectedSprite = sKey;
-                    break;
-
-                case KeyCode.D:
-                    selectedSprite = dKey;
-                    break;
-            }
-
-            Keyicons[i].sprite = selectedSprite;
         }
+    }
+
+    Sprite GetSprite(KeyCode key, bool active)
+    {
+        switch (key)
+        {
+            case KeyCode.W:
+                return
+                    active ? wKeyActive : wKey;
+            case KeyCode.A:
+                return
+                    active ? aKeyActive : aKey;
+            case KeyCode.S:
+                return
+                    active ? sKeyActive : sKey;
+            case KeyCode.D:
+                return
+                    active ? dKeyActive : dKey;
+        }
+        return null;
     }
 }
