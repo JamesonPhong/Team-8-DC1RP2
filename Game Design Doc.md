@@ -45,10 +45,6 @@ The game is structured using a rounds based system, the game progressively getti
 
 Currently, the game exists in a purple void with pixel-style graphics of the keys the player is to press.
 
-## Characters
-
-Currently, no characters exist within the game. Perhaps the player can be counted as a character that exists beyond the fourth wall
-
 ## Interface
 
 The key press sequence is shown on screen using sprites of keyboard keys with the corresponding letter on them, the sprites ordered left to right. The interface aside from the QTE sequence is very minimalistic, consisting of a simple white text timer at the top of the screen and more white text that appears when the game has ended that prompts you to restart.
