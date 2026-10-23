@@ -35,7 +35,7 @@ The player experience goal is to make players feel challenged as they try to qui
 
 ### 1. Input
 
-The main game loop is played using the W, A, S, and D keys, with the Space key being used to restart when the game is ended. Players are tasked with pressing keys in sequentially corresponding to the sequence given on screen. Pressing an incorrect key will momentarily stop the player's ability to input key presses.
+The main game loop is played using the W, A, S, and D keys. Players are tasked with pressing those keys sequentially corresponding to the sequence given on screen. Pressing an incorrect key will momentarily stop the player's ability to input key presses and cause a red flash.
 
 ### 2. Rounds
 
@@ -43,18 +43,20 @@ The game is structured using a rounds based system, the game progressively getti
 
 ## World
 
-Currently, the game exists in a purple void with pixel-style graphics of the keys the player is to press.
+Currently, the prototype has no particular worldbuilding, narrative, or characters. Assets were chosen prioritizing usability and adaptability for use in other games. 
 
 ## Interface
 
-The key press sequence is shown on screen using sprites of keyboard keys with the corresponding letter on them, the sprites ordered left to right. The interface aside from the QTE sequence is very minimalistic, consisting of a simple white text timer at the top of the screen and more white text that appears when the game has ended that prompts you to restart.
+The key press sequence is shown on screen using sprites of keyboard keys with the corresponding letter on them, the sprites ordered left to right. The next key to be pressed is highlighted to signal key press order and speed up visual processing for the player. The interface aside from the QTE sequence is very minimalistic, consisting of a simple white text timer at the top of the screen and white text that appears when the game has ended that prompts you to restart. Before a round has started, there's text in the top left to signal the round number.
 
 ## Audio
 
-A sound will play on every correct key press and a different, less pleasant sound will play on every incorrect key press. Whether there will be background music is up for discussion.
+A clack sound will play on every correct key press and a record scratch will play on every incorrect key press. There is no music or voice audio.
 
 ## Resources
 
 QTE Script sourced and made by Kaiky Correa in a prior project
 
 [Simple Flat Keys (Light/Dark)](https://gamedev-lab.itch.io/simple-flat-keys-lightdark) by [Gamedev Lab](https://gamedev-lab.itch.io) on itch.io
+
+[Controller & Keyboard Icons](https://vryell.itch.io/controller-keyboard-icons) by [Vyrell](https://vryell.itch.io) on itch.io
